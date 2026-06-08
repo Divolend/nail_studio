@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Управление абонементами — Студия маникюра{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Типы абонементов</h1>
+    <a href="{% url 'mng_subscription_type_create' %}" class="btn btn-dark">+ Добавить тип</a>
+</div>
+
+<table class="table table-striped align-middle">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Процедур</th>
+            <th>Срок</th>
+            <th>Скидка</th>
+            <th>Цена</th>
+            <th>Услуги</th>
+            <th class="text-end">Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for type in types %}
+            <tr>
+                <td>{{ type.name }}</td>
+                <td>{{ type.procedures_count }}</td>
+                <td>{{ type.validity_days }} дн.</td>
+                <td>{{ type.discount_percent }}%</td>
+                <td>{{ type.total_price }} руб.</td>
+                <td><small>{% for s in type.services.all %}{{ s.name }}{% if not forloop.last %}, {% endif %}{% empty %}любые{% endfor %}</small></td>
+                <td class="text-end">
+                    <a href="{% url 'mng_subscription_type_edit' type.pk %}" class="btn btn-sm btn-outline-dark">Изменить</a>
+                    <a href="{% url 'mng_subscription_type_delete' type.pk %}" class="btn btn-sm btn-outline-danger">Удалить</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="7" class="text-muted">Типы абонементов не добавлены.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'mng_dashboard' %}" class="btn btn-link">← Назад в панель</a>
+{% endblock %}

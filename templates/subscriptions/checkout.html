@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Оформление абонемента — Студия маникюра{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <h1 class="mb-4">Оформление абонемента</h1>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">{{ stype.name }}</h5>
+                <ul class="list-unstyled text-muted mb-3">
+                    <li>Количество процедур: {{ stype.procedures_count }}</li>
+                    <li>Срок действия: {{ stype.validity_days }} дней</li>
+                    <li>Скидка: {{ stype.discount_percent }}%</li>
+                    <li>Услуги: {% for s in stype.services.all %}{{ s.name }}{% if not forloop.last %}, {% endif %}{% empty %}любые{% endfor %}</li>
+                </ul>
+                <p class="h4">К оплате: {{ stype.total_price }} руб.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Оплата картой</h5>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Номер карты</label>
+                        <input type="text" class="form-control" placeholder="0000 0000 0000 0000" maxlength="19" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label class="form-label">Срок действия</label>
+                            <input type="text" class="form-control" placeholder="ММ/ГГ" maxlength="5" required>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label class="form-label">CVC</label>
+                            <input type="text" class="form-control" placeholder="000" maxlength="3" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-dark w-100">Оплатить {{ stype.total_price }} руб.</button>
+                </form>
+                <p class="form-text mt-2">
+                    Это учебный проект. Реальная оплата не производится — при нажатии абонемент
+                    оформляется как оплаченный.
+                </p>
+            </div>
+        </div>
+
+        <a href="{% url 'subscription_list' %}" class="btn btn-link mt-3">← Назад к абонементам</a>
+    </div>
+</div>
+{% endblock %}

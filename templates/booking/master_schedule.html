@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Моё расписание — Студия маникюра{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Моё расписание</h1>
+
+<div class="row g-4">
+    <!-- Боковая колонка: добавление слота -->
+    <div class="col-lg-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Добавить слот</h5>
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label">{{ field.label }}</label>
+                            {{ field }}
+                            {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-dark w-100">+ Добавить слот</button>
+                </form>
+            </div>
+        </div>
+        <a href="{% url 'account' %}" class="btn btn-link w-100 mt-2">← Назад в кабинет</a>
+    </div>
+
+    <!-- Недельная сетка -->
+    <div class="col-lg-9">
+        <div class="schedule-toolbar">
+            <div class="d-flex align-items-center gap-2">
+                <a href="?week={{ prev_week }}" class="btn btn-outline-dark btn-sm">←</a>
+                <strong>{{ week_start|date:"d.m" }} – {{ week_end|date:"d.m.Y" }}</strong>
+                <a href="?week={{ next_week }}" class="btn btn-outline-dark btn-sm">→</a>
+            </div>
+            <a href="{% url 'master_schedule' %}" class="btn btn-link btn-sm">Текущая неделя</a>
+        </div>
+
+        <div class="week-grid">
+            {% for day in week_days %}
+                <div class="week-day-col">
+                    <div class="week-day-head">{{ day.name }} {{ day.date|date:"d" }}</div>
+                    {% for slot in day.slots %}
+                        {% if slot.status == 'busy' %}
+                            <div class="slot-cell busy">
+                                <span class="slot-time">{{ slot.start_time|time:"H:i" }}</span>
+                                <span class="slot-meta">занят</span>
+                            </div>
+                        {% else %}
+                            <div class="slot-cell free">
+                                <span class="slot-time">{{ slot.start_time|time:"H:i" }}</span>
+                                <form method="post" action="{% url 'slot_delete' slot.pk %}" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-link btn-sm p-0 slot-meta" style="text-decoration:none;color:#5C7344;">удалить</button>
+                                </form>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="schedule-legend">
+            <span class="legend-swatch" style="background:linear-gradient(135deg,var(--rose),var(--rose-deep));"></span> занятый слот (запись клиента)
+            &nbsp;&nbsp;
+            <span class="legend-swatch" style="background:rgba(143,169,120,0.18);border:1px solid rgba(143,169,120,0.4);"></span> свободный слот (открыт для записи)
+        </div>
+    </div>
+</div>
+{% endblock %}

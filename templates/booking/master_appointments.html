@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Записи клиентов — Студия маникюра{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Записи клиентов</h1>
+
+<div class="list-group">
+    {% for ap in appointments %}
+        <div class="list-group-item">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <strong>{{ ap.time_slot.date|date:"d.m.Y" }}, {{ ap.time_slot.start_time|time:"H:i" }}</strong><br>
+                    <small class="text-muted">
+                        Клиент: {{ ap.client.display_name }} ({{ ap.client.phone|default:"телефон не указан" }})<br>
+                        Услуга: {{ ap.service.name }}<br>
+                        Оплата: {{ ap.get_payment_method_display }} · Статус:
+                        {% if ap.status == 'active' %}
+                            <span class="badge bg-primary">Активна</span>
+                        {% elif ap.status == 'completed' %}
+                            <span class="badge bg-success">Выполнена</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Отменена</span>
+                        {% endif %}
+                    </small>
+                    {% if ap.reference_photo %}
+                        <div class="mt-2">
+                            <small class="text-muted">Референс клиента:</small><br>
+                            <img src="{{ ap.reference_photo.url }}" class="img-thumbnail mt-1" style="max-height: 120px;">
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-4 text-end">
+                    {% if ap.status == 'active' %}
+                        <form method="post" action="{% url 'complete_appointment' ap.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success btn-sm">Отметить выполненной</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-muted">К вам пока никто не записался.</p>
+    {% endfor %}
+</div>
+
+<a href="{% url 'account' %}" class="btn btn-link mt-3">← Назад в кабинет</a>
+{% endblock %}

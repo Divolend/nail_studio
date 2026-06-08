@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Панель управления — Студия маникюра{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Панель управления</h1>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <h2 class="display-4">{{ services_count }}</h2>
+                <p class="text-muted">Услуг</p>
+                <a href="{% url 'mng_service_list' %}" class="btn btn-dark w-100">Управлять услугами</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <h2 class="display-4">{{ masters_count }}</h2>
+                <p class="text-muted">Мастеров</p>
+                <a href="{% url 'mng_master_list' %}" class="btn btn-dark w-100">Управлять мастерами</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <h2 class="display-4">{{ subscription_types_count }}</h2>
+                <p class="text-muted">Типов абонементов</p>
+                <a href="{% url 'mng_subscription_type_list' %}" class="btn btn-dark w-100">Управлять абонементами</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

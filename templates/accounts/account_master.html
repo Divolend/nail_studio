@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Кабинет мастера — Студия маникюра{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Кабинет мастера</h1>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Мой профиль</h5>
+                {% if profile %}
+                    <p class="card-text mb-1"><strong>Специализация:</strong> {{ profile.specialization|default:"не указана" }}</p>
+                    <p class="card-text mb-1"><strong>Опыт:</strong> {{ profile.experience_years }} лет</p>
+                    <p class="card-text"><strong>О себе:</strong> {{ profile.biography|default:"не заполнено" }}</p>
+                    <a href="{% url 'edit_master_profile' %}" class="btn btn-outline-dark btn-sm">Редактировать профиль</a>
+                {% else %}
+                    <p class="text-muted">Профиль не создан.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Портфолио</h5>
+                <p class="card-text text-muted">Загружайте фотографии своих работ, чтобы привлекать клиентов.</p>
+                <a href="{% url 'portfolio_manage' %}" class="btn btn-outline-dark btn-sm">Управление портфолио</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Расписание</h5>
+                <p class="card-text text-muted">Выставляйте свободные слоты, на которые смогут записаться клиенты.</p>
+                <a href="{% url 'master_schedule' %}" class="btn btn-outline-dark btn-sm">Управление расписанием</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Записи клиентов</h5>
+                <p class="card-text text-muted">Просматривайте записи и отмечайте выполненные процедуры.</p>
+                <a href="{% url 'master_appointments' %}" class="btn btn-outline-dark btn-sm">Мои записи</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

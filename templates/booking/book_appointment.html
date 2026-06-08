@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}Запись на процедуру — Студия маникюра{% endblock %}
+
+{% block content %}
+<h1 class="mb-1">Запись на процедуру</h1>
+<p class="text-muted mb-4">Мастер: {{ master.user.display_name }}</p>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row g-4">
+        <!-- Левая колонка: услуга + дата/время -->
+        <div class="col-lg-6">
+            <div class="booking-step">
+                <h5 class="step-title"><span class="step-num">1</span> Выберите услугу</h5>
+                {{ form.service }}
+                {% for error in form.service.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+            </div>
+
+            <div class="booking-step mt-4">
+                <h5 class="step-title"><span class="step-num">2</span> Выберите дату и время</h5>
+                {% if slots_by_date %}
+                    {% for day in slots_by_date %}
+                        <div class="slot-day">
+                            <div class="slot-day-label">{{ day.label }}</div>
+                            <div class="slot-times">
+                                {% for slot in day.slots %}
+                                    <label class="slot-chip">
+                                        <input type="radio" name="time_slot" value="{{ slot.pk }}" required>
+                                        <span>{{ slot.start_time|time:"H:i" }}</span>
+                                    </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-warning mb-0">У этого мастера пока нет свободных слотов для записи.</div>
+                {% endif %}
+                {% for error in form.time_slot.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+            </div>
+        </div>
+
+        <!-- Правая колонка: референс + оплата + итог -->
+        <div class="col-lg-6">
+            <div class="booking-step">
+                <h5 class="step-title"><span class="step-num">3</span> Прикрепите референс <span class="text-muted fw-normal">(необязательно)</span></h5>
+                <div class="reference-drop">
+                    <p class="text-muted mb-2">Фотография желаемого дизайна</p>
+                    {{ form.reference_photo }}
+                </div>
+            </div>
+
+            <div class="booking-step mt-4">
+                <h5 class="step-title"><span class="step-num">4</span> Способ оплаты</h5>
+                <div class="payment-options">
+                    {% for radio in form.payment_choice %}
+                        <label class="payment-option">
+                            {{ radio.tag }}
+                            <span>{{ radio.choice_label }}</span>
+                        </label>
+                    {% endfor %}
+                </div>
+                {% for error in form.payment_choice.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+            </div>
+
+            <button type="submit" class="btn btn-dark w-100 btn-lg mt-4">Подтвердить запись</button>
+            <a href="{% url 'master_detail' master.pk %}" class="btn btn-link w-100 mt-2">← Назад к мастеру</a>
+        </div>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Услуги — Студия маникюра{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Услуги студии</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Длительность</th>
+            <th>Цена</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for service in services %}
+            <tr>
+                <td>{{ service.name }}</td>
+                <td>{{ service.duration_minutes }} мин</td>
+                <td>{{ service.price }} руб.</td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="3" class="text-muted">Услуги пока не добавлены.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

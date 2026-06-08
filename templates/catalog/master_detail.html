@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ master.user.display_name }} — Студия маникюра{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Главная</a></li>
+        <li class="breadcrumb-item active">{{ master.user.full_name|default:master.user.username }}</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-md-4">
+        {% if master.avatar %}
+            <img src="{{ master.avatar.url }}" class="master-detail-photo mb-3" alt="{{ master.user.display_name }}">
+        {% else %}
+            <div class="master-photo-placeholder mb-3" style="border-radius: var(--radius);">Фото не загружено</div>
+        {% endif %}
+    </div>
+    <div class="col-md-5">
+        <h1>{{ master.user.display_name }}</h1>
+        <p class="text-muted">Специализация: {{ master.specialization|default:"—" }} · Опыт: {{ master.experience_years }} лет</p>
+        <h5 class="mt-4">О мастере</h5>
+        <p>{{ master.biography|default:"Информация о мастере появится позже." }}</p>
+    </div>
+    <div class="col-md-3">
+        {% if user.is_authenticated and user.is_client %}
+            <a href="{% url 'book_appointment' master.pk %}" class="btn btn-dark btn-lg w-100">Записаться</a>
+        {% elif not user.is_authenticated %}
+            <a href="{% url 'login' %}" class="btn btn-dark btn-lg w-100">Войдите для записи</a>
+        {% endif %}
+    </div>
+</div>
+
+<h4 class="mt-5">Портфолио работ</h4>
+<div class="row g-3 mt-1">
+    {% for photo in photos %}
+        <div class="col-6 col-md-3">
+            <img src="{{ photo.image.url }}" class="img-fluid rounded" alt="{{ photo.description }}">
+        </div>
+    {% empty %}
+        <p class="text-muted">Работы пока не загружены.</p>
+    {% endfor %}
+</div>
+{% endblock %}

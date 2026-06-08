@@ -1,0 +1,486 @@
+/* ============================================================
+   Студия маникюра — тема оформления
+   Палитра: молочный, пудрово-розовый, тёплый беж
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --cream: #FBF7F4;
+    --blush: #F3DDE2;
+    --rose: #E8B4BC;
+    --rose-deep: #C98A98;
+    --mauve: #A9737F;
+    --beige: #EFE6DD;
+    --beige-warm: #E5D5C5;
+    --ink: #4A3B3F;
+    --ink-soft: #7A6A6E;
+    --white: #FFFFFF;
+    --shadow-soft: 0 10px 40px rgba(169, 115, 127, 0.12);
+    --shadow-card: 0 4px 24px rgba(169, 115, 127, 0.10);
+    --shadow-hover: 0 16px 48px rgba(169, 115, 127, 0.20);
+    --radius: 18px;
+    --radius-sm: 12px;
+}
+
+/* ----- Базовая раскладка: footer всегда внизу ----- */
+html, body {
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Manrope', sans-serif;
+    color: var(--ink);
+    background: linear-gradient(160deg, var(--cream) 0%, var(--blush) 100%);
+    background-attachment: fixed;
+}
+main {
+    flex: 1 0 auto;
+}
+footer {
+    flex-shrink: 0;
+}
+
+/* ----- Типографика ----- */
+h1, h2, h3, h4, h5, .display-4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: 0.3px;
+}
+h1 {
+    font-size: 2.6rem;
+}
+.text-muted {
+    color: var(--ink-soft) !important;
+}
+
+/* ----- Навигация ----- */
+.navbar {
+    background: rgba(255, 255, 255, 0.75) !important;
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--blush) !important;
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
+}
+.navbar-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem !important;
+    font-weight: 700 !important;
+    color: var(--mauve) !important;
+    letter-spacing: 0.5px;
+}
+.navbar .nav-link {
+    color: var(--ink) !important;
+    font-weight: 500;
+    font-size: 0.95rem;
+    margin: 0 0.3rem;
+    transition: color 0.2s ease;
+}
+.navbar .nav-link:hover {
+    color: var(--rose-deep) !important;
+}
+
+/* ----- Кнопки ----- */
+.btn-dark {
+    background: linear-gradient(135deg, var(--rose-deep) 0%, var(--mauve) 100%);
+    border: none;
+    border-radius: 50px;
+    padding: 0.6rem 1.6rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    box-shadow: 0 4px 14px rgba(201, 138, 152, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-dark:hover {
+    background: linear-gradient(135deg, var(--mauve) 0%, var(--rose-deep) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(201, 138, 152, 0.45);
+}
+.btn-outline-dark {
+    border: 1.5px solid var(--rose);
+    color: var(--mauve);
+    border-radius: 50px;
+    padding: 0.5rem 1.3rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+.btn-outline-dark:hover {
+    background: var(--rose);
+    border-color: var(--rose);
+    color: var(--white);
+    transform: translateY(-1px);
+}
+.btn-outline-danger {
+    border-radius: 50px;
+    font-weight: 600;
+}
+.btn-success {
+    background: linear-gradient(135deg, #B5C9A4 0%, #8FA978 100%);
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+}
+.btn-link {
+    color: var(--mauve);
+    text-decoration: none;
+    font-weight: 500;
+}
+.btn-link:hover {
+    color: var(--rose-deep);
+}
+
+/* ----- Карточки ----- */
+.card {
+    border: none;
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(6px);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
+}
+.card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--mauve);
+}
+.card-img-top {
+    border-top-left-radius: var(--radius);
+    border-top-right-radius: var(--radius);
+}
+
+/* ----- Аватарка мастера на карточке ----- */
+.master-photo {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    object-position: center top;
+}
+.master-photo-placeholder {
+    width: 100%;
+    height: 320px;
+    background: linear-gradient(135deg, var(--blush) 0%, var(--beige) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-soft);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+}
+
+/* Крупное фото на странице мастера */
+.master-detail-photo {
+    width: 100%;
+    border-radius: var(--radius);
+    object-fit: cover;
+    box-shadow: var(--shadow-card);
+}
+
+/* ----- Бейджи ----- */
+.badge.bg-secondary {
+    background: var(--rose) !important;
+    color: var(--white);
+    font-weight: 600;
+    border-radius: 50px;
+    padding: 0.4em 0.9em;
+}
+.badge.bg-success {
+    background: #8FA978 !important;
+    border-radius: 50px;
+}
+.badge.bg-primary {
+    background: var(--rose-deep) !important;
+    border-radius: 50px;
+}
+
+/* ----- Формы ----- */
+.form-control, .form-select {
+    border: 1.5px solid var(--beige-warm);
+    border-radius: var(--radius-sm);
+    padding: 0.6rem 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--rose);
+    box-shadow: 0 0 0 0.2rem rgba(232, 180, 188, 0.25);
+    background: var(--white);
+}
+.form-label {
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+}
+
+/* ----- Таблицы ----- */
+.table {
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+.table thead th {
+    background: var(--beige);
+    color: var(--ink);
+    font-weight: 600;
+    border: none;
+    padding: 1rem;
+}
+.table tbody td {
+    padding: 0.9rem 1rem;
+    vertical-align: middle;
+    border-color: var(--blush);
+}
+.table-striped tbody tr:nth-of-type(odd) td {
+    background: rgba(243, 221, 226, 0.18);
+}
+
+/* ----- Footer ----- */
+footer {
+    background: rgba(255, 255, 255, 0.6) !important;
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--blush) !important;
+    padding: 1.5rem 0;
+    color: var(--ink-soft);
+}
+footer .text-muted {
+    color: var(--mauve) !important;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+}
+
+/* ----- Алерты ----- */
+.alert {
+    border: none;
+    border-radius: var(--radius-sm);
+    backdrop-filter: blur(6px);
+}
+.alert-success {
+    background: rgba(143, 169, 120, 0.15);
+    color: #5C7344;
+}
+.alert-info {
+    background: rgba(232, 180, 188, 0.18);
+    color: var(--mauve);
+}
+.alert-warning {
+    background: rgba(229, 213, 197, 0.4);
+    color: #8A6D4B;
+}
+.alert-danger {
+    background: rgba(201, 138, 152, 0.15);
+    color: var(--rose-deep);
+}
+
+/* ----- Прогресс-бар абонемента ----- */
+.progress {
+    height: 10px;
+    border-radius: 50px;
+    background: var(--beige);
+}
+.progress-bar {
+    background: linear-gradient(90deg, var(--rose) 0%, var(--rose-deep) 100%);
+}
+
+/* ----- Hero на главной ----- */
+.page-hero {
+    text-align: center;
+    padding: 2.5rem 0 1.5rem;
+}
+.page-hero h1 {
+    font-size: 3.2rem;
+    color: var(--mauve);
+    margin-bottom: 0.5rem;
+}
+.page-hero p {
+    font-size: 1.15rem;
+    color: var(--ink-soft);
+}
+
+/* ----- Список (записи) ----- */
+.list-group-item {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: var(--blush);
+}
+
+/* ============================================================
+   Страница записи на процедуру (booking)
+   ============================================================ */
+.booking-step {
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-card);
+}
+.step-title {
+    font-family: 'Manrope', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+.step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--rose-deep), var(--mauve));
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+/* Группы слотов по датам */
+.slot-day { margin-bottom: 1rem; }
+.slot-day-label {
+    font-weight: 600;
+    color: var(--mauve);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+.slot-times {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.slot-chip {
+    position: relative;
+    cursor: pointer;
+}
+.slot-chip input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slot-chip span {
+    display: inline-block;
+    padding: 0.5rem 1.1rem;
+    border: 1.5px solid var(--beige-warm);
+    border-radius: 50px;
+    background: #fff;
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+.slot-chip:hover span {
+    border-color: var(--rose);
+}
+.slot-chip input:checked + span {
+    background: linear-gradient(135deg, var(--rose-deep), var(--mauve));
+    border-color: var(--mauve);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(201, 138, 152, 0.35);
+}
+
+/* Область загрузки референса */
+.reference-drop {
+    border: 2px dashed var(--rose);
+    border-radius: var(--radius-sm);
+    padding: 1.5rem;
+    text-align: center;
+    background: rgba(243, 221, 226, 0.15);
+}
+
+/* Опции оплаты */
+.payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+.payment-option {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.9rem 1.1rem;
+    border: 1.5px solid var(--beige-warm);
+    border-radius: var(--radius-sm);
+    background: #fff;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+.payment-option:hover {
+    border-color: var(--rose);
+}
+.payment-option input { accent-color: var(--mauve); }
+
+/* ============================================================
+   Расписание мастера — недельная сетка
+   ============================================================ */
+.schedule-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+.week-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.6rem;
+}
+.week-day-col {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: var(--radius-sm);
+    padding: 0.5rem;
+    min-height: 120px;
+}
+.week-day-head {
+    text-align: center;
+    font-weight: 700;
+    color: var(--mauve);
+    font-size: 0.9rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--blush);
+    margin-bottom: 0.5rem;
+}
+.slot-cell {
+    border-radius: 8px;
+    padding: 0.45rem 0.5rem;
+    margin-bottom: 0.4rem;
+    font-size: 0.82rem;
+    text-align: center;
+}
+.slot-cell.free {
+    background: rgba(143, 169, 120, 0.18);
+    color: #5C7344;
+    border: 1px solid rgba(143, 169, 120, 0.4);
+}
+.slot-cell.busy {
+    background: linear-gradient(135deg, var(--rose), var(--rose-deep));
+    color: #fff;
+}
+.slot-cell .slot-time { font-weight: 700; display: block; }
+.slot-cell .slot-meta { font-size: 0.72rem; opacity: 0.85; }
+.schedule-legend {
+    margin-top: 1.5rem;
+    padding: 1rem 1.25rem;
+    background: rgba(255,255,255,0.7);
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+}
+.legend-swatch {
+    display: inline-block;
+    width: 26px; height: 16px;
+    border-radius: 4px;
+    vertical-align: middle;
+    margin-right: 0.4rem;
+}

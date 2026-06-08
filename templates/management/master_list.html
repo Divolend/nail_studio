@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Управление мастерами — Студия маникюра{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Мастера</h1>
+    <a href="{% url 'mng_master_create' %}" class="btn btn-dark">+ Добавить мастера</a>
+</div>
+
+<table class="table table-striped align-middle">
+    <thead>
+        <tr>
+            <th>ФИО</th>
+            <th>Логин</th>
+            <th>Специализация</th>
+            <th>Опыт</th>
+            <th class="text-end">Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for master in masters %}
+            <tr>
+                <td>{{ master.user.full_name|default:"—" }}</td>
+                <td>{{ master.user.username }}</td>
+                <td>{{ master.specialization|default:"—" }}</td>
+                <td>{{ master.experience_years }} лет</td>
+                <td class="text-end">
+                    <a href="{% url 'mng_master_delete' master.pk %}" class="btn btn-sm btn-outline-danger">Удалить</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="5" class="text-muted">Мастера не добавлены.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<p class="text-muted small">
+    Мастер заполняет свой профиль (специализация, опыт, фото, портфолио) самостоятельно
+    после первого входа.
+</p>
+
+<a href="{% url 'mng_dashboard' %}" class="btn btn-link">← Назад в панель</a>
+{% endblock %}

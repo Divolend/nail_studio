@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} — Студия маникюра{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <h1 class="mb-4">{{ title }}</h1>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="mb-3">
+                    <label class="form-label">{{ field.label }}</label>
+                    {% if field.name == 'services' %}
+                        <div class="border rounded p-2">
+                            {{ field }}
+                        </div>
+                        <div class="form-text">Отметьте услуги, на которые распространяется абонемент. Если не отмечено ничего — абонемент действует на любые услуги.</div>
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <div class="text-danger small">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-dark">Сохранить</button>
+            <a href="{% url 'mng_subscription_type_list' %}" class="btn btn-link">Отмена</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
