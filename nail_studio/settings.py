@@ -1,17 +1,29 @@
 """
 Настройки Django-проекта «Студия маникюра».
 """
+import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ВНИМАНИЕ: для учебного проекта ключ оставлен в коде.
-# В реальном проекте его выносят в переменные окружения.
-SECRET_KEY = 'django-insecure-zamenite-etot-kluch-v-prodakshene'
+# Ключ берётся из переменной окружения (на хостинге), иначе — учебное значение.
+SECRET_KEY = os.environ.get(
+    'SECRET_KEY',
+    'django-insecure-zamenite-etot-kluch-v-prodakshene',
+)
 
-DEBUG = True
+# DEBUG включён локально; на хостинге задайте переменную окружения DEBUG=False.
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.onrender.com']
+
+# Render проксирует запросы по HTTPS — доверяем источнику для CSRF.
+CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com']
+
+# Адрес внешнего хоста Render (если задан) добавляем в разрешённые.
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -30,6 +42,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # WhiteNoise отдаёт статику в продакшене (сразу после SecurityMiddleware).
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -83,10 +97,22 @@ USE_TZ = True
 # Статические файлы (CSS, JS)
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+# Папка, куда collectstatic собирает статику для раздачи через WhiteNoise.
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Медиафайлы (загруженные пользователями фото)
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Хранилища: WhiteNoise сжимает статику для продакшена.
+STORAGES = {
+    'default': {
+        'BACKEND': 'django.core.files.storage.FileSystemStorage',
+    },
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedStaticFilesStorage',
+    },
+}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

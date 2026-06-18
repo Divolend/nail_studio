@@ -1,0 +1,15 @@
+# Конфигурация Render (Blueprint). Можно подключить через "New > Blueprint".
+services:
+  - type: web
+    name: nail-studio
+    runtime: python
+    plan: free
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn nail_studio.wsgi:application"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: PYTHON_VERSION
+        value: "3.13.4"

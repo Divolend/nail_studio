@@ -5,9 +5,12 @@ venv/
 .venv/
 
 # Django
-db.sqlite3
+# ВНИМАНИЕ: db.sqlite3 и /media/ намеренно НЕ игнорируются —
+# чтобы текущие данные и загруженные фото попали на хостинг (Render).
 *.log
-/media/
+
+# Собранная статика (создаётся командой collectstatic при деплое)
+/staticfiles/
 
 # IDE
 .vscode/
